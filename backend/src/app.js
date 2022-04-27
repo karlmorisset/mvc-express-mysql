@@ -20,9 +20,9 @@ app.use(express.static(path.join(__dirname, "../public")));
 
 // load router
 
-const router = require("./router");
+const herosRouter = require("./herosRouter");
 
-app.use(router);
+app.use("/api/superheros", herosRouter);
 
 // ready to export
 module.exports = app;

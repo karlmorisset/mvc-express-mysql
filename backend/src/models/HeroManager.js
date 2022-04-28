@@ -11,6 +11,22 @@ class HeroManager extends AbstractManager {
     );
   }
 
+  findAll(filters) {
+    const baseSql = `select * from ${this.table}`;
+
+    if (Object.keys(filters).length > 0) {
+      const filterArray = Object.keys(filters).map(
+        (filter) => `${filter} LIKE ?`
+      );
+      return this.connection.query(
+        `${baseSql} WHERE ${filterArray.join(" AND ")}`,
+        [...Object.values(filters)]
+      );
+    }
+
+    return this.connection.query(baseSql);
+  }
+
   update(item) {
     return this.connection.query(
       `update ${HeroManager.table} set name=?, gender=?, power=?, color=? where id = ?`,
